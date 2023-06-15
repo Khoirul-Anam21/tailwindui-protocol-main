@@ -1,0 +1,260 @@
+export const description =
+  'On this page, we’ll dive into the different report endpoints you can use to manage reports programmatically.'
+
+# Dashboard Report
+
+reports are how student or facilitator analize or obtain information about their activity in this LMS {{ className: 'lead' }}
+
+## Student report model 
+
+The report model contains all the learning informations and progresses.
+
+### Properties
+
+<Properties>
+  <Property name="enrolledCoursesTotal" type="number">
+    Total course enrolled
+  </Property>
+  <Property name="completedCourses" type="number">
+    total course completed
+  </Property>
+  <Property name="assignmentDue" type="number">
+    total assignment not done
+  </Property>
+  <Property name="enrolledCourses" type="array">
+    List of enrolled courses
+  </Property>
+  
+</Properties>
+
+## Facilitator report model
+
+The report model contains all the information about courses informations that the facilitator has.
+
+### Properties
+
+<Properties>
+  <Property name="ownedCourseTotal" type="number">
+    Total course owned
+  </Property>
+  <Property name="assignmentCreated" type="number">
+    total assignment created
+  </Property>
+  <Property name="participantTotal" type="number">
+    total participant enrolled
+  </Property>
+  <Property name="ownedCourse" type="array">
+    List of owned courses
+  </Property>
+  <Property name="participantEngagement" type="object">
+    Periodic data of participant enrollment
+  </Property>
+</Properties>
+
+
+
+---
+
+## Get participant report by id {{ tag: 'GET', label: '/v1/reports/participant/:id' }}
+ 
+<Row>
+  <Col>
+
+    This endpoint will inform you about the student learning information.
+
+  </Col>
+  <Col sticky>    
+
+    <CodeGroup title="Request" tag="GET" label="/v1/reports/participant/:id">
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.reports.participantReports.get("9djfa0dfd");
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "enrolledCoursesTotal": 12,
+      "completedCourses": 8,
+      "assignmentDue": 8,
+      "enrolledCourses": [
+        {
+          "_id": "df09fajd0afjda",
+          "title": "Fundamental of Web Design"
+        },
+        {
+          "_id": "df09fajd0afjda",
+          "title": "Fundamental of Web Design"
+        },
+        {
+          "_id": "df09fajd0afjda",
+          "title": "Fundamental of Web Design"
+        }
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get participant report detail by course_id {{ tag: 'GET', label: '/v1/reports/participant/course/:id' }}
+ 
+<Row>
+  <Col>
+
+    This endpoint will inform you about the student learning information.
+
+  </Col>
+  <Col sticky>    
+
+    <CodeGroup title="Request" tag="GET" label="/v1/reports/participant/course/:id">
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.reports.participantReports.course.get("9djfa0dfd");
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "_id": "9djfa0dfd",
+      "completedContents": 0.8,
+      "assignments": [
+        {
+          "_id": "df0jsdfs",
+          "title": "Create Simple Website",
+          "createdAt": "<time>"
+        },
+        {
+          "_id": "df0jsdfs",
+          "title": "Create Simple Website",
+          "createdAt": "<time>"
+        }
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get facilitator report by id {{ tag: 'GET', label: '/v1/report/facil/:id' }}
+
+<Row>
+  <Col>
+
+    This endpoint will inform you about the summary information for facilitator.
+    
+  </Col>
+  <Col sticky>
+
+<CodeGroup title="Request" tag="GET" label="/v1/reports">
+
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.facilitatorReports.get()
+    ```
+
+    </CodeGroup>
+    ```json {{ title: 'Response' }}
+    {
+      "ownedCourseTotal": 40,
+      "assignmentCreated": 80,
+      "participantTotal": 240,
+      "ownedCourses": [
+        {
+          "_id": "dfms9jf",
+          "title": "Fundamental of Web Design"
+        },
+        {
+          "_id": "dfms9jf",
+          "title": "Fundamental of Web Design"
+        }
+      ],
+      "participantEngagement": {
+          "daily": [
+            { "date": "2023-01-01", "participantCount": 10 },
+            { "date": "2023-01-02", "participantCount": 15 },
+            { "date": "2023-01-03", "participantCount": 8 },
+          ],
+          "monthly": [
+            { "month": "January 2023", "participantCount": 300 },
+            { "month": "February 2023", "participantCount": 350 },
+            { "month": "March 2023", "participantCount": 400 },
+          ]
+      }
+    },
+    ```
+
+  </Col>
+</Row>
+
+--- 
+
+## Get facilitator report detail by course id {{ tag: 'GET', label: '/v1/report/facil/course/:id' }}
+
+<Row>
+  <Col>
+
+    This endpoint will inform you more detailed information about the content of the course that contains assignment. In short, it's a submission information.
+
+  </Col>
+  <Col sticky>
+
+<CodeGroup title="Request" tag="GET" label="/v1/facilitator_reports/sdf434td">
+
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.reports.facilitatorReports.course.get("sdf434td")
+    ```
+
+    </CodeGroup>
+    ```json {{ title: 'Response' }}
+    {
+      "participantCount": 40,
+      "contentCount": 12,
+      "assignmentCount": 4,
+      "assignments": [
+        {
+          "_id": "d0fajdfa",
+          "title": "Create Simple Website",
+          "createdAt": "<time>",
+          "submission": "0.7"
+        },
+        {
+          "_id": "d0fajdfa",
+          "title": "Create Simple Website",
+          "createdAt": "<time>",
+          "submission": "0.7"
+        },
+        {
+          "_id": "d0fajdfa",
+          "title": "Create Simple Website",
+          "createdAt": "<time>",
+          "submission": "0.7"
+        }
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
